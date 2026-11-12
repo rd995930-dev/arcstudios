@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>arcstudios | Video Editing & Creative Design</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #09090b;
+            --bg-card: #121216;
+            --bg-card-hover: #18181f;
+            --accent: #6366f1;
+            --accent-glow: rgba(99, 102, 241, 0.25);
+            --text-main: #f4f4f5;
+            --text-muted: #a1a1aa;
+            --border: #27272a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Outfit', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Navbar */
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(9, 9, 11, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            padding: 14px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: var(--text-main);
+            font-weight: 800;
+            font-size: 1.4rem;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-brand img {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 1.5px solid var(--accent);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 24px;
+        }
+
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-main);
+        }
+
+        /* Hero Section (Studio Name & Logo) */
+        .hero {
+            text-align: center;
+            padding: 70px 5% 50px;
+            background: radial-gradient(circle at top, var(--accent-glow) 0%, transparent 60%);
+        }
+
+        .logo-wrapper {
+            width: 130px;
+            height: 130px;
+            margin: 0 auto 24px;
+            border-radius: 50%;
+            padding: 4px;
+            background: linear-gradient(135deg, #6366f1, #a855f7);
+            box-shadow: 0 0 35px var(--accent-glow);
+        }
+
+        .logo-wrapper img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            background: #121216;
+            display: block;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.4rem, 5vw, 3.8rem);
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            margin-bottom: 12px;
+            background: linear-gradient(to right, #ffffff, #a5b4fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto 28px;
+            font-size: 1.1rem;
+        }
+
+        .hero-btns {
+            display: flex;
+            justify-content: center;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 26px;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: all 0.25s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: #fff;
+            box-shadow: 0 4px 20px var(--accent-glow);
+        }
+
+        .btn-primary:hover {
+            background: #4f46e5;
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            background: var(--bg-card);
+        }
+
+        .btn-outline:hover {
+            border-color: var(--accent);
+            background: var(--bg-card-hover);
+        }
+
+        /* Section Styling */
+        section {
+            padding: 60px 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            margin-bottom: 32px;
+        }
+
+        .section-header h2 {
+            font-size: 1.9rem;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .section-header p {
+            color: var(--text-muted);
+            font-size: 0.98rem;
+        }
+
+        .sub-category {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #c7d2fe;
+            margin: 32px 0 18px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .sub-category::before {
+            content: '';
+            width: 4px;
+            height: 20px;
+            background: var(--accent);
+            border-radius: 4px;
+        }
+
+        /* Video Grid (9:16 Reels Format) */
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 24px;
+        }
+
+        .video-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            overflow: hidden;
+            transition: transform 0.25s ease, border-color 0.25s ease;
+        }
+
+        .video-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent);
+        }
+
+        .video-wrapper {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 9 / 16;
+            background: #000;
+        }
+
+        .video-wrapper iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* Graphic Designs Grid */
+        .design-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .design-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            overflow: hidden;
+            cursor: pointer;
+            position: relative;
+            aspect-ratio: 1 / 1;
+            transition: transform 0.25s ease, border-color 0.25s ease;
+        }
+
+        .design-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent);
+        }
+
+        .design-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.35s ease;
+        }
+
+        .design-card:hover img {
+            transform: scale(1.04);
+        }
+
+        /* About Us Section */
+        .about-box {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 36px;
+        }
+
+        .about-box h2 {
+            font-size: 1.8rem;
+            margin-bottom: 14px;
+        }
+
+        .about-box p {
+            color: var(--text-muted);
+            font-size: 1.05rem;
+            margin-bottom: 16px;
+        }
+
+        .skills-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .tag {
+            background: rgba(99, 102, 241, 0.12);
+            color: #a5b4fc;
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.88rem;
+            font-weight: 500;
+        }
+
+        /* Client Reviews Section */
+        .reviews-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 22px;
+        }
+
+        .review-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 26px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.25s ease, border-color 0.25s ease;
+        }
+
+        .review-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent);
+        }
+
+        .stars {
+            color: #fbbf24;
+            font-size: 1.1rem;
+            letter-spacing: 2px;
+            margin-bottom: 14px;
+        }
+
+        .review-text {
+            color: var(--text-main);
+            font-size: 0.98rem;
+            line-height: 1.65;
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+
+        .reviewer-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-top: 1px solid var(--border);
+            padding-top: 14px;
+        }
+
+        .reviewer-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(99, 102, 241, 0.2);
+            color: #a5b4fc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1rem;
+            border: 1px solid rgba(99, 102, 241, 0.4);
+        }
+
+        .reviewer-details h4 {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        .reviewer-details span {
+            font-size: 0.82rem;
+            color: var(--text-muted);
+        }
+
+        /* Contact & Custom Section */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            gap: 18px;
+        }
+
+        .contact-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            text-decoration: none;
+            color: var(--text-main);
+            transition: all 0.25s ease;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .contact-card:hover {
+            border-color: var(--accent);
+            background: var(--bg-card-hover);
+            transform: translateY(-3px);
+        }
+
+        .contact-card span.label {
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+        }
+
+        .contact-card span.value {
+            font-size: 1.02rem;
+            font-weight: 600;
+            word-break: break-all;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px 5%;
+            border-top: 1px solid var(--border);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-top: 40px;
+        }
+
+        /* Lightbox Modal for Fullscreen Image View */
+        .lightbox {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 999;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .lightbox.active {
+            display: flex;
+        }
+
+        .lightbox img {
+            max-width: 92%;
+            max-height: 90vh;
+            border-radius: 10px;
+            box-shadow: 0 0 40px rgba(0,0,0,0.8);
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 20px;
+            right: 28px;
+            color: #fff;
+            font-size: 2.2rem;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        @media (max-width: 600px) {
+            .nav-links { display: none; }
+            .about-box { padding: 24px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav>
+        <a href="#" class="nav-brand">
+            <img src="https://lh3.googleusercontent.com/d/1yeTfXBBk8gq169TdfALmanMfbareriYk" alt="arcstudios logo">
+            <span>arcstudios</span>
+        </a>
+        <div class="nav-links">
+            <a href="#videos">Videos</a>
+            <a href="#designs">Designs</a>
+            <a href="#about">About</a>
+            <a href="#reviews">Reviews</a>
+            <a href="#contact">Contact</a>
+        </div>
+    </nav>
+
+    <!-- 1. Studio Name & Logo Section -->
+    <header class="hero">
+        <div class="logo-wrapper">
+            <img src="https://lh3.googleusercontent.com/d/1yeTfXBBk8gq169TdfALmanMfbareriYk" alt="arcstudios Logo">
+        </div>
+        <h1>arcstudios</h1>
+        <p>High-Retention Video Editing, Talking-Head Reels, Business Promos & Scroll-Stopping Graphic Designs.</p>
+        <div class="hero-btns">
+            <a href="#videos" class="btn btn-primary">Watch Our Work</a>
+            <a href="https://wa.me/918109780994" target="_blank" class="btn btn-outline">WhatsApp Us</a>
+        </div>
+    </header>
+
+    <!-- 2. Videos Section -->
+    <section id="videos">
+        <div class="section-header">
+            <h2>Featured Videos</h2>
+            <p>Click on any video below to play directly inside the portfolio.</p>
+        </div>
+
+        <!-- Talking Reels -->
+        <h3 class="sub-category">Talking Reels</h3>
+        <div class="video-grid">
+            <div class="video-card">
+                <div class="video-wrapper">
+                    <iframe src="https://drive.google.com/file/d/1DV3bWXI-xklmQA8kKMLqixt9Du1yjCcO/preview" loading="lazy" allow="autoplay; fullscreen" allowfullscreen></iframe>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="video-wrapper">
+                    <iframe src="https://drive.google.com/file/d/1ZC15ZNqKKL5FTlaltFzAvgNAi7FAfDv-/preview" loading="lazy" allow="autoplay; fullscreen" allowfullscreen></iframe>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="video-wrapper">
+                    <iframe src="https://drive.google.com/file/d/1HWKikJlVi8_6RyYWrbq1bkSb3bJlCneb/preview" loading="lazy" allow="autoplay; fullscreen" allowfullscreen></iframe>
+                </div>
+            </div>
+            <!-- Naya Talking Reel add karne ke liye upar wala video-card block copy-paste karein -->
+        </div>
+
+        <!-- Business Reels -->
+        <h3 class="sub-category">Business Reels</h3>
+        <div class="video-grid">
+            <div class="video-card">
+                <div class="video-wrapper">
+                    <iframe src="https://drive.google.com/file/d/1og7wOSMDX-H3RfHGPKOjExhxg29x5YSz/preview" loading="lazy" allow="autoplay; fullscreen" allowfullscreen></iframe>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="video-wrapper">
+                    <iframe src="https://drive.google.com/file/d/1oOTu36lRyiPI_-7ySAy2GxsZV0iD9Mgh/preview" loading="lazy" allow="autoplay; fullscreen" allowfullscreen></iframe>
+                </div>
+            </div>
+            <!-- Yahan apna 3rd Business Reel ka Drive ID replace karke add kar sakte hain -->
+        </div>
+    </section>
+
+    <!-- 3. Graphic Designs & Posts Section -->
+    <section id="designs">
+        <div class="section-header">
+            <h2>Graphic Designs & Posts</h2>
+            <p>Click on any design to view in full screen.</p>
+        </div>
+
+        <div class="design-grid">
+            <div class="design-card" onclick="openLightbox(this)">
+                <img src="https://lh3.googleusercontent.com/d/154fjE0jqEwYwuTGaQWFoPnyzr5NZ9AhR" alt="Graphic Design 1" loading="lazy">
+            </div>
+            <div class="design-card" onclick="openLightbox(this)">
+                <img src="https://lh3.googleusercontent.com/d/1lb5GoncIUcAdK8LqzYMnJMWugB1DOS81" alt="Graphic Design 2" loading="lazy">
+            </div>
+            <div class="design-card" onclick="openLightbox(this)">
+                <img src="https://lh3.googleusercontent.com/d/1MzU5JynKQhN5zqlTIJA3vAC2egpRohFf" alt="Graphic Design 3" loading="lazy">
+            </div>
+            <div class="design-card" onclick="openLightbox(this)">
+                <img src="https://lh3.googleusercontent.com/d/1MPL4tkWy4OTSoeyrtLSHsVFhjBOdijeM" alt="Graphic Design 4" loading="lazy">
+            </div>
+            <!-- Naya Graphic Design add karne ke liye upar wala design-card block copy-paste karein -->
+        </div>
+    </section>
+
+    <!-- 4. About Us Section -->
+    <section id="about">
+        <div class="about-box">
+            <h2>About arcstudios</h2>
+            <p>
+                Welcome to <strong>arcstudios</strong> — a creative video production and design studio dedicated to helping creators, brands, and businesses stand out online. From high-retention talking-head reels and dynamic motion graphics to impactful business promos and custom graphic designs, we craft visuals that capture attention and drive real results.
+            </p>
+            <div class="skills-tags">
+                <span class="tag">Video Editing</span>
+                <span class="tag">Talking-Head Reels</span>
+                <span class="tag">Business Promos</span>
+                <span class="tag">Motion Graphics</span>
+                <span class="tag">Graphic Design</span>
+                <span class="tag">Thumbnails & Social Posts</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. Client Reviews Section -->
+    <section id="reviews">
+        <div class="section-header">
+            <h2>Client Reviews</h2>
+            <p>What creators and business owners say about working with arcstudios.</p>
+        </div>
+
+        <div class="reviews-grid">
+            <!-- Review 1 -->
+            <div class="review-card">
+                <div>
+                    <div class="stars">★★★★★</div>
+                    <p class="review-text">"arcstudios transformed our raw talking-head clips into super engaging reels. Retention jumped noticeably, and delivery was always right on schedule."</p>
+                </div>
+                <div class="reviewer-info">
+                    <div class="reviewer-avatar">AK</div>
+                    <div class="reviewer-details">
+                        <h4>Aarav Sharma</h4>
+                        <span>Content Creator & Coach</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Review 2 -->
+            <div class="review-card">
+                <div>
+                    <div class="stars">★★★★★</div>
+                    <p class="review-text">"Clean transitions, sharp pacing, and great understanding of what works for business promos. Easily the smoothest editing experience we've had."</p>
+                </div>
+                <div class="reviewer-info">
+                    <div class="reviewer-avatar">RV</div>
+                    <div class="reviewer-details">
+                        <h4>Rohan Verma</h4>
+                        <span>Founder, GrowthBrand Media</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Review 3 -->
+            <div class="review-card">
+                <div>
+                    <div class="stars">★★★★★</div>
+                    <p class="review-text">"Their graphic designs and social media creatives gave our brand page a completely premium look. Fast revisions and awesome communication!"</p>
+                </div>
+                <div class="reviewer-info">
+                    <div class="reviewer-avatar">NS</div>
+                    <div class="reviewer-details">
+                        <h4>Neha Singhania</h4>
+                        <span>Marketing Lead</span>
+                    </div>
+                </div>
+            </div>
+            <!-- Naya review add karne ke liye upar wala review-card block copy-paste karein -->
+        </div>
+    </section>
+
+    <!-- 6. Contact & Custom Section -->
+    <section id="contact">
+        <div class="section-header">
+            <h2>Work With Us</h2>
+            <p>Reach out directly via WhatsApp, Call, Instagram, or Email to start your project.</p>
+        </div>
+
+        <div class="contact-grid">
+            <a href="https://wa.me/918109780994" target="_blank" class="contact-card">
+                <span class="label">WhatsApp / Call (Primary)</span>
+                <span class="value">+91 81097 80994</span>
+            </a>
+            <a href="tel:+918269412361" class="contact-card">
+                <span class="label">Alternate Contact</span>
+                <span class="value">+91 82694 12361</span>
+            </a>
+            <a href="https://www.instagram.com/arc_studios_4?mdxt=MWczbGwwbW9xb3J3eQ==" target="_blank" class="contact-card">
+                <span class="label">Instagram</span>
+                <span class="value">@arc_studios_4</span>
+            </a>
+            <a href="mailto:arcstudios4@gmail.com" class="contact-card">
+                <span class="label">Email</span>
+                <span class="value">arcstudios4@gmail.com</span>
+            </a>
+        </div>
+    </section>
+
+    <footer>
+        <p>© 2026 arcstudios. All Rights Reserved.</p>
+    </footer>
+
+    <!-- Lightbox Popup -->
+    <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+        <span class="lightbox-close">×</span>
+        <img id="lightbox-img" src="" alt="Full View">
+    </div>
+
+    <script>
+        function openLightbox(card) {
+            const imgSrc = card.querySelector('img').src;
+            document.getElementById('lightbox-img').src = imgSrc;
+            document.getElementById('lightbox').classList.add('active');
+        }
+        function closeLightbox() {
+            document.getElementById('lightbox').classList.remove('active');
+        }
+    </script>
+</body>
+</html>
