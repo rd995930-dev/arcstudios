@@ -3,18 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>arcstudios | Video Editing & Creative Design</title>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <title>arcstudios | 3D Creative Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-dark: #09090b;
-            --bg-card: #121216;
-            --bg-card-hover: #18181f;
-            --accent: #6366f1;
-            --accent-glow: rgba(99, 102, 241, 0.25);
-            --text-main: #f4f4f5;
+            --bg-dark: #050508;
+            --glass-bg: rgba(20, 20, 30, 0.55);
+            --glass-border: rgba(255, 255, 255, 0.12);
+            --accent-1: #6366f1;
+            --accent-2: #a855f7;
+            --accent-3: #06b6d4;
+            --text-main: #ffffff;
             --text-muted: #a1a1aa;
-            --border: #27272a;
         }
 
         * {
@@ -30,20 +30,88 @@
             color: var(--text-main);
             line-height: 1.6;
             overflow-x: hidden;
+            perspective: 1200px;
         }
 
-        /* Navbar */
+        /* 3D Perspective Grid & Ambient Glow Background */
+        .bg-3d-scene {
+            position: fixed;
+            inset: 0;
+            z-index: -2;
+            overflow: hidden;
+            background: radial-gradient(circle at 50% 0%, #16162c 0%, #050508 75%);
+        }
+
+        .grid-floor {
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            top: -50%;
+            left: -50%;
+            background-image: 
+                linear-gradient(rgba(99, 102, 241, 0.12) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(99, 102, 241, 0.12) 1px, transparent 1px);
+            background-size: 60px 60px;
+            transform: rotateX(65deg) translateZ(-100px);
+            animation: gridMove 18s linear infinite;
+            mask-image: radial-gradient(circle at center, black 20%, transparent 70%);
+            -webkit-mask-image: radial-gradient(circle at center, black 20%, transparent 70%);
+        }
+
+        @keyframes gridMove {
+            0% { transform: rotateX(65deg) translateY(0); }
+            100% { transform: rotateX(65deg) translateY(60px); }
+        }
+
+        .orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(90px);
+            z-index: -1;
+            opacity: 0.45;
+            animation: floatOrb 10s ease-in-out infinite alternate;
+        }
+
+        .orb-1 {
+            width: 380px;
+            height: 380px;
+            background: var(--accent-1);
+            top: -80px;
+            left: -80px;
+        }
+
+        .orb-2 {
+            width: 340px;
+            height: 340px;
+            background: var(--accent-2);
+            bottom: 10%;
+            right: -60px;
+            animation-delay: -5s;
+        }
+
+        @keyframes floatOrb {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(40px, 50px) scale(1.12); }
+        }
+
+        /* 3D Glass Navbar */
         nav {
             position: sticky;
-            top: 0;
+            top: 14px;
             z-index: 100;
-            background: rgba(9, 9, 11, 0.85);
-            backdrop-filter: blur(12px);
-            border-bottom: 1px solid var(--border);
-            padding: 14px 5%;
+            max-width: 1150px;
+            margin: 14px auto 0;
+            width: 92%;
+            background: rgba(15, 15, 24, 0.65);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border: 1px solid var(--glass-border);
+            border-radius: 18px;
+            padding: 12px 24px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255,255,255,0.1);
         }
 
         .nav-brand {
@@ -51,9 +119,9 @@
             align-items: center;
             gap: 12px;
             text-decoration: none;
-            color: var(--text-main);
+            color: #fff;
             font-weight: 800;
-            font-size: 1.4rem;
+            font-size: 1.35rem;
             letter-spacing: 0.5px;
         }
 
@@ -62,7 +130,8 @@
             height: 38px;
             border-radius: 50%;
             object-fit: cover;
-            border: 1.5px solid var(--accent);
+            border: 2px solid var(--accent-1);
+            box-shadow: 0 0 15px rgba(99, 102, 241, 0.6);
         }
 
         .nav-links {
@@ -75,155 +144,202 @@
             text-decoration: none;
             font-size: 0.95rem;
             font-weight: 500;
-            transition: color 0.2s;
+            transition: all 0.25s;
         }
 
         .nav-links a:hover {
-            color: var(--text-main);
+            color: #fff;
+            text-shadow: 0 0 12px rgba(99, 102, 241, 0.8);
         }
 
-        /* Hero Section (Studio Name & Logo) */
+        /* 3D Hero Section */
         .hero {
             text-align: center;
-            padding: 70px 5% 50px;
-            background: radial-gradient(circle at top, var(--accent-glow) 0%, transparent 60%);
+            padding: 80px 5% 60px;
+            transform-style: preserve-3d;
         }
 
-        .logo-wrapper {
-            width: 130px;
-            height: 130px;
-            margin: 0 auto 24px;
+        .hero-3d-stage {
+            display: inline-block;
+            transform-style: preserve-3d;
+            transition: transform 0.15s ease-out;
+        }
+
+        .logo-3d-ring {
+            width: 150px;
+            height: 150px;
+            margin: 0 auto 26px;
             border-radius: 50%;
-            padding: 4px;
-            background: linear-gradient(135deg, #6366f1, #a855f7);
-            box-shadow: 0 0 35px var(--accent-glow);
+            padding: 5px;
+            background: linear-gradient(135deg, #06b6d4, #6366f1, #a855f7);
+            box-shadow: 
+                0 20px 50px rgba(99, 102, 241, 0.45),
+                0 0 0 8px rgba(255, 255, 255, 0.03),
+                inset 0 2px 6px rgba(255, 255, 255, 0.5);
+            animation: floatLogo 4s ease-in-out infinite;
+            transform: translateZ(40px);
         }
 
-        .logo-wrapper img {
+        @keyframes floatLogo {
+            0%, 100% { transform: translateY(0px) translateZ(40px); }
+            50% { transform: translateY(-10px) translateZ(55px); }
+        }
+
+        .logo-3d-ring img {
             width: 100%;
             height: 100%;
             border-radius: 50%;
             object-fit: cover;
-            background: #121216;
+            background: #0b0b12;
             display: block;
         }
 
         .hero h1 {
-            font-size: clamp(2.4rem, 5vw, 3.8rem);
-            font-weight: 800;
-            letter-spacing: -0.5px;
-            margin-bottom: 12px;
-            background: linear-gradient(to right, #ffffff, #a5b4fc);
+            font-size: clamp(2.8rem, 6vw, 4.5rem);
+            font-weight: 900;
+            letter-spacing: -1px;
+            margin-bottom: 14px;
+            background: linear-gradient(180deg, #ffffff 20%, #a5b4fc 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 10px 25px rgba(99, 102, 241, 0.35));
+            transform: translateZ(30px);
         }
 
         .hero p {
-            color: var(--text-muted);
-            max-width: 600px;
-            margin: 0 auto 28px;
-            font-size: 1.1rem;
+            color: #cbd5e1;
+            max-width: 620px;
+            margin: 0 auto 32px;
+            font-size: 1.12rem;
+            font-weight: 300;
         }
 
         .hero-btns {
             display: flex;
             justify-content: center;
-            gap: 14px;
+            gap: 16px;
             flex-wrap: wrap;
         }
 
-        .btn {
-            padding: 12px 26px;
-            border-radius: 8px;
-            font-weight: 600;
+        /* 3D Tactile Buttons */
+        .btn-3d {
+            padding: 14px 30px;
+            border-radius: 12px;
+            font-weight: 700;
             text-decoration: none;
-            font-size: 0.95rem;
-            transition: all 0.25s ease;
+            font-size: 0.98rem;
+            transition: all 0.2s ease;
             display: inline-flex;
             align-items: center;
             gap: 8px;
+            position: relative;
         }
 
-        .btn-primary {
-            background: var(--accent);
+        .btn-3d-primary {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
             color: #fff;
-            box-shadow: 0 4px 20px var(--accent-glow);
+            border: 1px solid rgba(255,255,255,0.2);
+            box-shadow: 0 6px 0 #3730a3, 0 15px 30px rgba(99, 102, 241, 0.45);
         }
 
-        .btn-primary:hover {
-            background: #4f46e5;
+        .btn-3d-primary:hover {
             transform: translateY(-2px);
+            box-shadow: 0 8px 0 #3730a3, 0 20px 35px rgba(99, 102, 241, 0.6);
         }
 
-        .btn-outline {
-            border: 1px solid var(--border);
-            color: var(--text-main);
-            background: var(--bg-card);
+        .btn-3d-primary:active {
+            transform: translateY(4px);
+            box-shadow: 0 2px 0 #3730a3;
         }
 
-        .btn-outline:hover {
-            border-color: var(--accent);
-            background: var(--bg-card-hover);
+        .btn-3d-glass {
+            background: rgba(255, 255, 255, 0.06);
+            backdrop-filter: blur(12px);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 6px 0 rgba(0, 0, 0, 0.6), 0 12px 25px rgba(0, 0, 0, 0.4);
         }
 
-        /* Section Styling */
+        .btn-3d-glass:hover {
+            transform: translateY(-2px);
+            border-color: var(--accent-3);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .btn-3d-glass:active {
+            transform: translateY(4px);
+            box-shadow: 0 2px 0 rgba(0, 0, 0, 0.6);
+        }
+
+        /* Sections */
         section {
-            padding: 60px 5%;
+            padding: 65px 5%;
             max-width: 1200px;
             margin: 0 auto;
         }
 
         .section-header {
-            margin-bottom: 32px;
+            margin-bottom: 36px;
         }
 
         .section-header h2 {
-            font-size: 1.9rem;
-            font-weight: 700;
+            font-size: 2.1rem;
+            font-weight: 800;
+            background: linear-gradient(90deg, #fff, #94a3b8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
             margin-bottom: 6px;
         }
 
         .section-header p {
             color: var(--text-muted);
-            font-size: 0.98rem;
+            font-size: 1rem;
         }
 
         .sub-category {
-            font-size: 1.25rem;
-            font-weight: 600;
-            color: #c7d2fe;
-            margin: 32px 0 18px;
-            display: flex;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #e0e7ff;
+            margin: 36px 0 20px;
+            display: inline-flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
+            padding: 8px 18px;
+            background: rgba(99, 102, 241, 0.12);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 10px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
         }
 
-        .sub-category::before {
-            content: '';
-            width: 4px;
-            height: 20px;
-            background: var(--accent);
-            border-radius: 4px;
+        /* 3D Tilt Card Base */
+        .tilt-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            border-radius: 18px;
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.55),
+                inset 0 1px 0 rgba(255, 255, 255, 0.15);
+            transform-style: preserve-3d;
+            transition: transform 0.15s ease-out, box-shadow 0.25s ease, border-color 0.25s ease;
+            position: relative;
+            overflow: hidden;
         }
 
-        /* Video Grid (9:16 Reels Format) */
+        .tilt-card:hover {
+            border-color: rgba(99, 102, 241, 0.65);
+            box-shadow: 
+                0 25px 50px rgba(0, 0, 0, 0.7),
+                0 0 25px rgba(99, 102, 241, 0.25),
+                inset 0 1px 0 rgba(255, 255, 255, 0.25);
+        }
+
+        /* Video Grid */
         .video-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 24px;
-        }
-
-        .video-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 14px;
-            overflow: hidden;
-            transition: transform 0.25s ease, border-color 0.25s ease;
-        }
-
-        .video-card:hover {
-            transform: translateY(-4px);
-            border-color: var(--accent);
+            grid-template-columns: repeat(auto-fit, minmax(265px, 1fr));
+            gap: 28px;
         }
 
         .video-wrapper {
@@ -231,6 +347,12 @@
             width: 100%;
             aspect-ratio: 9 / 16;
             background: #000;
+            border-radius: 14px;
+            overflow: hidden;
+        }
+
+        .video-card-inner {
+            padding: 10px;
         }
 
         .video-wrapper iframe {
@@ -242,109 +364,96 @@
         /* Graphic Designs Grid */
         .design-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(255px, 1fr));
+            gap: 24px;
         }
 
         .design-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 14px;
-            overflow: hidden;
+            padding: 10px;
             cursor: pointer;
-            position: relative;
+        }
+
+        .design-img-box {
+            width: 100%;
             aspect-ratio: 1 / 1;
-            transition: transform 0.25s ease, border-color 0.25s ease;
+            border-radius: 12px;
+            overflow: hidden;
         }
 
-        .design-card:hover {
-            transform: translateY(-4px);
-            border-color: var(--accent);
-        }
-
-        .design-card img {
+        .design-img-box img {
             width: 100%;
             height: 100%;
             object-fit: cover;
             display: block;
-            transition: transform 0.35s ease;
+            transition: transform 0.4s ease;
         }
 
-        .design-card:hover img {
-            transform: scale(1.04);
+        .design-card:hover .design-img-box img {
+            transform: scale(1.06);
         }
 
-        /* About Us Section */
+        /* About Us 3D Glass Panel */
         .about-box {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 36px;
+            padding: 40px;
         }
 
         .about-box h2 {
-            font-size: 1.8rem;
+            font-size: 2rem;
+            font-weight: 800;
             margin-bottom: 14px;
         }
 
         .about-box p {
-            color: var(--text-muted);
-            font-size: 1.05rem;
-            margin-bottom: 16px;
+            color: #cbd5e1;
+            font-size: 1.08rem;
+            margin-bottom: 18px;
         }
 
         .skills-tags {
             display: flex;
             flex-wrap: wrap;
-            gap: 10px;
-            margin-top: 20px;
+            gap: 12px;
+            margin-top: 22px;
         }
 
         .tag {
-            background: rgba(99, 102, 241, 0.12);
-            color: #a5b4fc;
-            border: 1px solid rgba(99, 102, 241, 0.3);
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 0.88rem;
-            font-weight: 500;
+            background: rgba(99, 102, 241, 0.15);
+            color: #c7d2fe;
+            border: 1px solid rgba(99, 102, 241, 0.35);
+            padding: 8px 16px;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.25);
         }
 
-        /* Client Reviews Section */
+        /* Client Reviews 3D Cards */
         .reviews-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 22px;
+            grid-template-columns: repeat(auto-fit, minmax(285px, 1fr));
+            gap: 24px;
         }
 
         .review-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 14px;
-            padding: 26px;
+            padding: 28px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            transition: transform 0.25s ease, border-color 0.25s ease;
-        }
-
-        .review-card:hover {
-            transform: translateY(-4px);
-            border-color: var(--accent);
         }
 
         .stars {
             color: #fbbf24;
-            font-size: 1.1rem;
-            letter-spacing: 2px;
+            font-size: 1.15rem;
+            letter-spacing: 3px;
             margin-bottom: 14px;
+            text-shadow: 0 0 12px rgba(251, 191, 36, 0.5);
         }
 
         .review-text {
-            color: var(--text-main);
-            font-size: 0.98rem;
+            color: #f1f5f9;
+            font-size: 1rem;
             line-height: 1.65;
-            margin-bottom: 20px;
+            margin-bottom: 22px;
             font-style: italic;
         }
 
@@ -352,89 +461,82 @@
             display: flex;
             align-items: center;
             gap: 12px;
-            border-top: 1px solid var(--border);
-            padding-top: 14px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 16px;
         }
 
         .reviewer-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: rgba(99, 102, 241, 0.2);
-            color: #a5b4fc;
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #6366f1, #a855f7);
+            color: #fff;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: 700;
+            font-weight: 800;
             font-size: 1rem;
-            border: 1px solid rgba(99, 102, 241, 0.4);
+            box-shadow: 0 6px 15px rgba(99, 102, 241, 0.4);
         }
 
         .reviewer-details h4 {
-            font-size: 0.95rem;
-            font-weight: 600;
-            color: var(--text-main);
+            font-size: 0.98rem;
+            font-weight: 700;
+            color: #fff;
         }
 
         .reviewer-details span {
-            font-size: 0.82rem;
+            font-size: 0.84rem;
             color: var(--text-muted);
         }
 
-        /* Contact & Custom Section */
+        /* Contact Grid */
         .contact-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-            gap: 18px;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
         }
 
         .contact-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 20px;
+            padding: 24px;
             text-decoration: none;
-            color: var(--text-main);
-            transition: all 0.25s ease;
+            color: #fff;
             display: flex;
             flex-direction: column;
             gap: 6px;
         }
 
-        .contact-card:hover {
-            border-color: var(--accent);
-            background: var(--bg-card-hover);
-            transform: translateY(-3px);
-        }
-
         .contact-card span.label {
             font-size: 0.82rem;
-            color: var(--text-muted);
+            color: #a5b4fc;
             text-transform: uppercase;
-            letter-spacing: 0.8px;
+            letter-spacing: 1px;
+            font-weight: 600;
         }
 
         .contact-card span.value {
-            font-size: 1.02rem;
-            font-weight: 600;
+            font-size: 1.05rem;
+            font-weight: 700;
             word-break: break-all;
         }
 
         footer {
             text-align: center;
-            padding: 30px 5%;
-            border-top: 1px solid var(--border);
+            padding: 34px 5%;
+            border-top: 1px solid rgba(255,255,255,0.08);
             color: var(--text-muted);
-            font-size: 0.9rem;
+            font-size: 0.92rem;
             margin-top: 40px;
+            background: rgba(5, 5, 8, 0.8);
         }
 
-        /* Lightbox Modal for Fullscreen Image View */
+        /* Lightbox */
         .lightbox {
             display: none;
             position: fixed;
             inset: 0;
-            background: rgba(0, 0, 0, 0.9);
+            background: rgba(0, 0, 0, 0.92);
+            backdrop-filter: blur(10px);
             z-index: 999;
             justify-content: center;
             align-items: center;
@@ -448,29 +550,37 @@
         .lightbox img {
             max-width: 92%;
             max-height: 90vh;
-            border-radius: 10px;
-            box-shadow: 0 0 40px rgba(0,0,0,0.8);
+            border-radius: 14px;
+            border: 1px solid rgba(255,255,255,0.2);
+            box-shadow: 0 25px 60px rgba(0,0,0,0.9);
         }
 
         .lightbox-close {
             position: absolute;
-            top: 20px;
-            right: 28px;
+            top: 22px;
+            right: 30px;
             color: #fff;
-            font-size: 2.2rem;
+            font-size: 2.4rem;
             cursor: pointer;
             font-weight: bold;
         }
 
-        @media (max-width: 600px) {
+        @media (max-width: 650px) {
             .nav-links { display: none; }
-            .about-box { padding: 24px; }
+            .about-box { padding: 26px; }
         }
     </style>
 </head>
 <body>
 
-    <!-- Navbar -->
+    <!-- 3D Background Scene -->
+    <div class="bg-3d-scene">
+        <div class="grid-floor"></div>
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+    </div>
+
+    <!-- Glass Navbar -->
     <nav>
         <a href="#" class="nav-brand">
             <img src="https://lh3.googleusercontent.com/d/1yeTfXBBk8gq169TdfALmanMfbareriYk" alt="arcstudios logo">
@@ -485,16 +595,18 @@
         </div>
     </nav>
 
-    <!-- 1. Studio Name & Logo Section -->
+    <!-- 1. 3D Hero Section -->
     <header class="hero">
-        <div class="logo-wrapper">
-            <img src="https://lh3.googleusercontent.com/d/1yeTfXBBk8gq169TdfALmanMfbareriYk" alt="arcstudios Logo">
+        <div class="hero-3d-stage" id="heroStage">
+            <div class="logo-3d-ring">
+                <img src="https://lh3.googleusercontent.com/d/1yeTfXBBk8gq169TdfALmanMfbareriYk" alt="arcstudios Logo">
+            </div>
+            <h1>arcstudios</h1>
         </div>
-        <h1>arcstudios</h1>
         <p>High-Retention Video Editing, Talking-Head Reels, Business Promos & Scroll-Stopping Graphic Designs.</p>
         <div class="hero-btns">
-            <a href="#videos" class="btn btn-primary">Watch Our Work</a>
-            <a href="https://wa.me/918109780994" target="_blank" class="btn btn-outline">WhatsApp Us</a>
+            <a href="#videos" class="btn-3d btn-3d-primary">Watch Our Work</a>
+            <a href="https://wa.me/918109780994" target="_blank" class="btn-3d btn-3d-glass">WhatsApp Us</a>
         </div>
     </header>
 
@@ -508,68 +620,73 @@
         <!-- Talking Reels -->
         <h3 class="sub-category">Talking Reels</h3>
         <div class="video-grid">
-            <div class="video-card">
+            <div class="tilt-card video-card-inner">
                 <div class="video-wrapper">
                     <iframe src="https://drive.google.com/file/d/1DV3bWXI-xklmQA8kKMLqixt9Du1yjCcO/preview" loading="lazy" allow="autoplay; fullscreen" allowfullscreen></iframe>
                 </div>
             </div>
-            <div class="video-card">
+            <div class="tilt-card video-card-inner">
                 <div class="video-wrapper">
                     <iframe src="https://drive.google.com/file/d/1ZC15ZNqKKL5FTlaltFzAvgNAi7FAfDv-/preview" loading="lazy" allow="autoplay; fullscreen" allowfullscreen></iframe>
                 </div>
             </div>
-            <div class="video-card">
+            <div class="tilt-card video-card-inner">
                 <div class="video-wrapper">
                     <iframe src="https://drive.google.com/file/d/1HWKikJlVi8_6RyYWrbq1bkSb3bJlCneb/preview" loading="lazy" allow="autoplay; fullscreen" allowfullscreen></iframe>
                 </div>
             </div>
-            <!-- Naya Talking Reel add karne ke liye upar wala video-card block copy-paste karein -->
         </div>
 
         <!-- Business Reels -->
         <h3 class="sub-category">Business Reels</h3>
         <div class="video-grid">
-            <div class="video-card">
+            <div class="tilt-card video-card-inner">
                 <div class="video-wrapper">
                     <iframe src="https://drive.google.com/file/d/1og7wOSMDX-H3RfHGPKOjExhxg29x5YSz/preview" loading="lazy" allow="autoplay; fullscreen" allowfullscreen></iframe>
                 </div>
             </div>
-            <div class="video-card">
+            <div class="tilt-card video-card-inner">
                 <div class="video-wrapper">
                     <iframe src="https://drive.google.com/file/d/1oOTu36lRyiPI_-7ySAy2GxsZV0iD9Mgh/preview" loading="lazy" allow="autoplay; fullscreen" allowfullscreen></iframe>
                 </div>
             </div>
-            <!-- Yahan apna 3rd Business Reel ka Drive ID replace karke add kar sakte hain -->
         </div>
     </section>
 
-    <!-- 3. Graphic Designs & Posts Section -->
+    <!-- 3. Graphic Designs Section -->
     <section id="designs">
         <div class="section-header">
             <h2>Graphic Designs & Posts</h2>
-            <p>Click on any design to view in full screen.</p>
+            <p>Hover for 3D depth or click any design to view in full screen.</p>
         </div>
 
         <div class="design-grid">
-            <div class="design-card" onclick="openLightbox(this)">
-                <img src="https://lh3.googleusercontent.com/d/154fjE0jqEwYwuTGaQWFoPnyzr5NZ9AhR" alt="Graphic Design 1" loading="lazy">
+            <div class="tilt-card design-card" onclick="openLightbox(this)">
+                <div class="design-img-box">
+                    <img src="https://lh3.googleusercontent.com/d/154fjE0jqEwYwuTGaQWFoPnyzr5NZ9AhR" alt="Graphic Design 1" loading="lazy">
+                </div>
             </div>
-            <div class="design-card" onclick="openLightbox(this)">
-                <img src="https://lh3.googleusercontent.com/d/1lb5GoncIUcAdK8LqzYMnJMWugB1DOS81" alt="Graphic Design 2" loading="lazy">
+            <div class="tilt-card design-card" onclick="openLightbox(this)">
+                <div class="design-img-box">
+                    <img src="https://lh3.googleusercontent.com/d/1lb5GoncIUcAdK8LqzYMnJMWugB1DOS81" alt="Graphic Design 2" loading="lazy">
+                </div>
             </div>
-            <div class="design-card" onclick="openLightbox(this)">
-                <img src="https://lh3.googleusercontent.com/d/1MzU5JynKQhN5zqlTIJA3vAC2egpRohFf" alt="Graphic Design 3" loading="lazy">
+            <div class="tilt-card design-card" onclick="openLightbox(this)">
+                <div class="design-img-box">
+                    <img src="https://lh3.googleusercontent.com/d/1MzU5JynKQhN5zqlTIJA3vAC2egpRohFf" alt="Graphic Design 3" loading="lazy">
+                </div>
             </div>
-            <div class="design-card" onclick="openLightbox(this)">
-                <img src="https://lh3.googleusercontent.com/d/1MPL4tkWy4OTSoeyrtLSHsVFhjBOdijeM" alt="Graphic Design 4" loading="lazy">
+            <div class="tilt-card design-card" onclick="openLightbox(this)">
+                <div class="design-img-box">
+                    <img src="https://lh3.googleusercontent.com/d/1MPL4tkWy4OTSoeyrtLSHsVFhjBOdijeM" alt="Graphic Design 4" loading="lazy">
+                </div>
             </div>
-            <!-- Naya Graphic Design add karne ke liye upar wala design-card block copy-paste karein -->
         </div>
     </section>
 
     <!-- 4. About Us Section -->
     <section id="about">
-        <div class="about-box">
+        <div class="tilt-card about-box">
             <h2>About arcstudios</h2>
             <p>
                 Welcome to <strong>arcstudios</strong> — a creative video production and design studio dedicated to helping creators, brands, and businesses stand out online. From high-retention talking-head reels and dynamic motion graphics to impactful business promos and custom graphic designs, we craft visuals that capture attention and drive real results.
@@ -593,14 +710,13 @@
         </div>
 
         <div class="reviews-grid">
-            <!-- Review 1 -->
-            <div class="review-card">
+            <div class="tilt-card review-card">
                 <div>
                     <div class="stars">★★★★★</div>
                     <p class="review-text">"arcstudios transformed our raw talking-head clips into super engaging reels. Retention jumped noticeably, and delivery was always right on schedule."</p>
                 </div>
                 <div class="reviewer-info">
-                    <div class="reviewer-avatar">AK</div>
+                    <div class="reviewer-avatar">AS</div>
                     <div class="reviewer-details">
                         <h4>Aarav Sharma</h4>
                         <span>Content Creator & Coach</span>
@@ -608,8 +724,7 @@
                 </div>
             </div>
 
-            <!-- Review 2 -->
-            <div class="review-card">
+            <div class="tilt-card review-card">
                 <div>
                     <div class="stars">★★★★★</div>
                     <p class="review-text">"Clean transitions, sharp pacing, and great understanding of what works for business promos. Easily the smoothest editing experience we've had."</p>
@@ -623,8 +738,7 @@
                 </div>
             </div>
 
-            <!-- Review 3 -->
-            <div class="review-card">
+            <div class="tilt-card review-card">
                 <div>
                     <div class="stars">★★★★★</div>
                     <p class="review-text">"Their graphic designs and social media creatives gave our brand page a completely premium look. Fast revisions and awesome communication!"</p>
@@ -637,11 +751,10 @@
                     </div>
                 </div>
             </div>
-            <!-- Naya review add karne ke liye upar wala review-card block copy-paste karein -->
         </div>
     </section>
 
-    <!-- 6. Contact & Custom Section -->
+    <!-- 6. Contact Section -->
     <section id="contact">
         <div class="section-header">
             <h2>Work With Us</h2>
@@ -649,19 +762,19 @@
         </div>
 
         <div class="contact-grid">
-            <a href="https://wa.me/918109780994" target="_blank" class="contact-card">
+            <a href="https://wa.me/918109780994" target="_blank" class="tilt-card contact-card">
                 <span class="label">WhatsApp / Call (Primary)</span>
                 <span class="value">+91 81097 80994</span>
             </a>
-            <a href="tel:+918269412361" class="contact-card">
+            <a href="tel:+918269412361" class="tilt-card contact-card">
                 <span class="label">Alternate Contact</span>
                 <span class="value">+91 82694 12361</span>
             </a>
-            <a href="https://www.instagram.com/arc_studios_4?mdxt=MWczbGwwbW9xb3J3eQ==" target="_blank" class="contact-card">
+            <a href="https://www.instagram.com/arc_studios_4?mdxt=MWczbGwwbW9xb3J3eQ==" target="_blank" class="tilt-card contact-card">
                 <span class="label">Instagram</span>
                 <span class="value">@arc_studios_4</span>
             </a>
-            <a href="mailto:arcstudios4@gmail.com" class="contact-card">
+            <a href="mailto:arcstudios4@gmail.com" class="tilt-card contact-card">
                 <span class="label">Email</span>
                 <span class="value">arcstudios4@gmail.com</span>
             </a>
@@ -679,6 +792,7 @@
     </div>
 
     <script>
+        // Lightbox Controls
         function openLightbox(card) {
             const imgSrc = card.querySelector('img').src;
             document.getElementById('lightbox-img').src = imgSrc;
@@ -687,6 +801,33 @@
         function closeLightbox() {
             document.getElementById('lightbox').classList.remove('active');
         }
+
+        // Interactive 3D Tilt Engine for Cards & Hero Logo
+        document.querySelectorAll('.tilt-card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                const rotateX = ((y - centerY) / centerY) * -7;
+                const rotateY = ((x - centerX) / centerX) * 7;
+                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+            });
+
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+            });
+        });
+
+        // 3D Hero Stage Mouse Parallax
+        const heroStage = document.getElementById('heroStage');
+        document.addEventListener('mousemove', (e) => {
+            if (!heroStage) return;
+            const xAxis = (window.innerWidth / 2 - e.pageX) / 35;
+            const yAxis = (window.innerHeight / 2 - e.pageY) / 35;
+            heroStage.style.transform = `rotateY(${-xAxis}deg) rotateX(${yAxis}deg)`;
+        });
     </script>
 </body>
 </html>
